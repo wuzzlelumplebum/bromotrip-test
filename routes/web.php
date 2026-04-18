@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\TourPackageController;
+use App\Http\Controllers\BookingController;
 
 /*
 |--------------------------------------------------------------------------
@@ -45,9 +46,12 @@ Route::middleware(['auth', 'customer'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
-    Route::get('/bookings/create/{schedule}', function () {
-        return 'Halaman booking coming soon';
-    })->name('bookings.create');
+    Route::get('/bookings/create/{schedule}', [BookingController::class, 'create'])->name('bookings.create');
+    Route::post('/bookings/store/{schedule}', [BookingController::class, 'store'])->name('bookings.store');
+    Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings', function () {
+        return 'Coming soon';
+    })->name('bookings.index');
 });
 
 require __DIR__.'/auth.php';

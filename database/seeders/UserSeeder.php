@@ -24,17 +24,17 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name'     => 'Pelanggan Setia',
+            'name'     => 'Loyal Customer',
             'email'    => 'loyal@bromotrip.com',
             'password' => Hash::make('password'),
             'role'     => 2,
         ]);
 
         User::create([
-            'name'     => 'Customer Biasa',
+            'name'     => 'Regular Customer',
             'email'    => 'customer@bromotrip.com',
             'password' => Hash::make('password'),
             'role'     => 3,
-        ]);
+        ]); 
     }
 }
