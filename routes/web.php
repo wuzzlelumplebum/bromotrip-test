@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\TourPackageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,6 +19,10 @@ use App\Http\Controllers\Admin\DashboardController;
 Route::get('/', function () {
     return view('welcome');
 });
+
+// Tour Routes
+Route::get('/tours', [TourPackageController::class, 'index'])->name('tours.index');
+Route::get('/tours/{slug}', [TourPackageController::class, 'show'])->name('tours.show');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
