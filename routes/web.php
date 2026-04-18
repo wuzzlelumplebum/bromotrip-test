@@ -44,6 +44,10 @@ Route::middleware(['auth', 'customer'])->group(function () {
     Route::get('/dashboard', function () {
         return view('dashboard');
     })->name('dashboard');
+
+    Route::get('/bookings/create/{schedule}', function () {
+        return 'Halaman booking coming soon';
+    })->name('bookings.create');
 });
 
 require __DIR__.'/auth.php';

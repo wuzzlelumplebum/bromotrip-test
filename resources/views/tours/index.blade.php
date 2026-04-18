@@ -63,12 +63,10 @@
                             <div class="p-4">
                                 <h3 class="font-bold text-lg text-gray-800">{{ $package->name }}</h3>
                                 <p class="text-sm text-gray-500 mt-1 line-clamp-2">{{ $package->description }}</p>
-
                                 <div class="mt-3 flex items-center gap-3 text-sm text-gray-600">
                                     <span>⏱ {{ $package->duration_days }} Hari</span>
                                     <span>📍 {{ $package->meeting_point }}</span>
                                 </div>
-
                                 <div class="mt-4 flex items-center justify-between">
                                     <span class="text-indigo-600 font-bold text-lg">{{ idr($package->price) }}</span>
                                     <a href="{{ route('tours.show', $package->slug) }}"
