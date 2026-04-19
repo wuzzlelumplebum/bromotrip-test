@@ -48,6 +48,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/packages/{package}/schedules', [TourPackageManagementController::class, 'storeSchedule'])->name('packages.schedules.store');
     Route::delete('/schedules/{schedule}', [TourPackageManagementController::class, 'destroySchedule'])->name('schedules.destroy');
     Route::resource('bookings', BookingManagementController::class)->names('bookings');
+    Route::post('/bookings/{booking}/confirm', [BookingManagementController::class, 'confirm'])->name('bookings.confirm');
+    Route::post('/bookings/{booking}/complete', [BookingManagementController::class, 'complete'])->name('bookings.complete');
+    Route::post('/bookings/{booking}/cancel', [BookingManagementController::class, 'cancel'])->name('bookings.cancel');
+    Route::get('/bookings/{booking}', [BookingManagementController::class, 'show'])->name('bookings.show');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
