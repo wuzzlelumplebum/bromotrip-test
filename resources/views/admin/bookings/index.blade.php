@@ -1,0 +1,1 @@
+<x-admin-layout>Coming soon</x-admin-layout>

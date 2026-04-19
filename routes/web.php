@@ -6,6 +6,9 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\TourPackageController;
 use App\Http\Controllers\BookingController;
 use App\Http\Controllers\ProfilePageController;
+use App\Http\Controllers\Admin\TourPackageManagementController;
+use App\Http\Controllers\Admin\BookingManagementController;
+use App\Http\Controllers\Admin\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -40,6 +43,9 @@ Route::middleware('auth')->group(function () {
 // Admin Routes
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+    Route::resource('packages', TourPackageManagementController::class)->names('packages');
+    Route::resource('bookings', BookingManagementController::class)->names('bookings');
+    Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 
 // Customer Routes
