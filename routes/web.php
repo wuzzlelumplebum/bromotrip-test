@@ -44,6 +44,9 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
     Route::resource('packages', TourPackageManagementController::class)->names('packages');
+    Route::get('/packages/{package}/schedules', [TourPackageManagementController::class, 'schedules'])->name('packages.schedules');
+    Route::post('/packages/{package}/schedules', [TourPackageManagementController::class, 'storeSchedule'])->name('packages.schedules.store');
+    Route::delete('/schedules/{schedule}', [TourPackageManagementController::class, 'destroySchedule'])->name('schedules.destroy');
     Route::resource('bookings', BookingManagementController::class)->names('bookings');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
