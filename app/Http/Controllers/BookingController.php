@@ -11,9 +11,19 @@ use Illuminate\Support\Str;
 
 class BookingController extends Controller
 {
+    public function index()
+    {
+        $bookings = Booking::where('user_id', auth()->id())
+            ->with(['tourSchedule.tourPackage'])
+            ->latest()
+            ->paginate(10);
+
+        return view('bookings.index', compact('bookings'));
+    }
+
     public function create(TourSchedule $schedule)
     {
-        // Cek apakah jadwal masih tersedia
+        // Check if schedule is active and has available quota
         if (!$schedule->is_active || $schedule->availableQuota() <= 0) {
             return redirect()->back()->with('error', 'Fully booked or not available');
         }
@@ -36,14 +46,14 @@ class BookingController extends Controller
             'total_participants.min' => 'Minimal 1 peserta.',
         ]);
 
-        // Hitung harga
+        // Price calculation
         $price = $schedule->tourPackage->price;
         if (auth()->user()->role === 2) {
             $price = $price * 0.9; // diskon 10% loyal customer
         }
         $totalPrice = $price * $request->total_participants;
 
-        // Buat booking
+        // Create booking
         $booking = Booking::create([
             'booking_code'       => 'BT-' . strtoupper(Str::random(8)),
             'user_id'            => auth()->id(),
@@ -54,7 +64,7 @@ class BookingController extends Controller
             'notes'              => $request->notes,
         ]);
 
-        // Simpan peserta
+        // Save participants
         foreach ($request->participants as $p) {
             BookingParticipant::create([
                 'booking_id' => $booking->id,
@@ -65,7 +75,7 @@ class BookingController extends Controller
             ]);
         }
 
-        // Update kuota
+        // Update quota
         $schedule->increment('booked', $request->total_participants);
 
         return redirect()->route('bookings.show', $booking->id)
@@ -74,7 +84,7 @@ class BookingController extends Controller
 
     public function show(Booking $booking)
     {
-        // Pastikan hanya pemilik booking yang bisa lihat
+        // Make sure the booking belongs to the authenticated user
         if ($booking->user_id !== auth()->id()) {
             abort(403);
         }
@@ -83,4 +93,23 @@ class BookingController extends Controller
 
         return view('bookings.show', compact('booking'));
     }
+
+    public function cancel(Booking $booking)
+    {
+        if ($booking->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        if ($booking->status !== 'pending') {
+            return redirect()->back()->with('error', 'Only pending bookings can be cancelled.');
+        }
+
+        // Kembalikan kuota
+        $booking->tourSchedule->decrement('booked', $booking->total_participants);
+
+        $booking->update(['status' => 'cancelled']);
+
+        return redirect()->route('bookings.index')->with('success', 'Booking has been cancelled successfully.');
+
+        }
 }

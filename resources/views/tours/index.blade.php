@@ -2,6 +2,20 @@
     <x-slot name="title">Tour Packages</x-slot>
 
     <div class="py-8">
+        {{-- Hero Section --}}
+        <div class="bg-gradient-to-r from-indigo-600 to-blue-500 text-white py-12 px-4 mb-8 -mt-8">
+            <div class="max-w-7xl mx-auto text-center">
+                <h1 class="text-4xl font-bold mb-3">Explore Mount Bromo</h1>
+                <p class="text-indigo-100 text-lg max-w-xl mx-auto">
+                    Discover breathtaking sunrise views, volcanic landscapes, and unforgettable adventures in East Java.
+                </p>
+                <div class="mt-6 flex justify-center gap-6 text-sm">
+                    <div class="bg-white/20 rounded-lg px-4 py-2">🏔️ 3 Tour Packages</div>
+                    <div class="bg-white/20 rounded-lg px-4 py-2">⭐ Expert Local Guides</div>
+                    <div class="bg-white/20 rounded-lg px-4 py-2">📅 Flexible Schedules</div>
+                </div>
+            </div>
+        </div>
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
             {{-- Filter Form --}}
@@ -64,7 +78,7 @@
                                 <h3 class="font-bold text-lg text-gray-800">{{ $package->name }}</h3>
                                 <p class="text-sm text-gray-500 mt-1 line-clamp-2">{{ $package->description }}</p>
                                 <div class="mt-3 flex items-center gap-3 text-sm text-gray-600">
-                                    <span>⏱ {{ $package->duration_days }} Hari</span>
+                                    <span>⏱ {{ $package->duration_days }} Day(s)</span>
                                     <span>📍 {{ $package->meeting_point }}</span>
                                 </div>
                                 <div class="mt-4 flex items-center justify-between">

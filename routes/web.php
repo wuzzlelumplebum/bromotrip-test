@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\TourPackageController;
 use App\Http\Controllers\BookingController;
+use App\Http\Controllers\ProfilePageController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,8 +19,9 @@ use App\Http\Controllers\BookingController;
 */
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    $packages = \App\Models\TourPackage::where('is_active', true)->latest()->take(3)->get();
+    return view('welcome', compact('packages'));
+})->name('home');
 
 // Tour Routes
 Route::get('/tours', [TourPackageController::class, 'index'])->name('tours.index');
@@ -46,12 +48,17 @@ Route::middleware(['auth', 'customer'])->group(function () {
         return view('dashboard');
     })->name('dashboard');
 
+    // Booking Routes
+    Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
     Route::get('/bookings/create/{schedule}', [BookingController::class, 'create'])->name('bookings.create');
     Route::post('/bookings/store/{schedule}', [BookingController::class, 'store'])->name('bookings.store');
     Route::get('/bookings/{booking}', [BookingController::class, 'show'])->name('bookings.show');
-    Route::get('/bookings', function () {
-        return 'Coming soon';
-    })->name('bookings.index');
+    Route::patch('/bookings/{booking}/cancel', [BookingController::class, 'cancel'])->name('bookings.cancel');
+
+    // Profile Routes
+    Route::get('/profile', [ProfilePageController::class, 'index'])->name('profile.index');
+    Route::patch('/profile/update', [ProfilePageController::class, 'update'])->name('profile.update');
+    Route::patch('/profile/password', [ProfilePageController::class, 'updatePassword'])->name('profile.password');
 });
 
 require __DIR__.'/auth.php';

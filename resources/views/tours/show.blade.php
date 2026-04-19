@@ -37,7 +37,7 @@
                             @foreach(explode("\n", $package->itinerary) as $line)
                                 @if(trim($line))
                                     <div class="flex gap-3 text-sm text-gray-700">
-                                        @if(str_contains($line, 'Days'))
+                                        @if(str_contains($line, 'Day'))
                                             <span class="font-bold text-indigo-600 w-full">{{ $line }}</span>
                                         @else
                                             <span class="text-indigo-400 mt-0.5">•</span>
@@ -99,7 +99,7 @@
             {{-- Back Button --}}
             <div class="mt-6">
                 <a href="{{ route('tours.index') }}" class="text-indigo-600 hover:underline text-sm">
-                    ← Kembali ke daftar paket
+                    ← Back to Package List
                 </a>
             </div>
 

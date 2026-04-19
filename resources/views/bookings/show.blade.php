@@ -1,5 +1,5 @@
 <x-guest-nav-layout>
-    <x-slot name="title">Detail Booking</x-slot>
+    <x-slot name="title">Booking Details</x-slot>
 
     <div class="py-8">
         <div class="max-w-3xl mx-auto px-4">
@@ -15,7 +15,7 @@
             <div class="bg-white rounded-xl shadow p-6 mb-6">
                 <div class="flex items-center justify-between">
                     <div>
-                        <h1 class="text-xl font-bold text-gray-800">Detail Booking</h1>
+                        <h1 class="text-xl font-bold text-gray-800">Booking Details</h1>
                         <p class="text-indigo-600 font-mono font-bold text-lg mt-1">{{ $booking->booking_code }}</p>
                     </div>
                     <span class="px-4 py-2 rounded-full text-sm font-semibold
@@ -31,21 +31,21 @@
 
             {{-- Info Paket --}}
             <div class="bg-white rounded-xl shadow p-6 mb-6">
-                <h2 class="font-semibold text-gray-800 mb-4">Info Paket</h2>
+                <h2 class="font-semibold text-gray-800 mb-4">Package Information</h2>
                 <div class="space-y-2 text-sm text-gray-600">
                     <div class="flex justify-between">
-                        <span>Paket</span>
+                        <span>Package</span>
                         <span class="font-medium text-gray-800">{{ $booking->tourSchedule->tourPackage->name }}</span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Tanggal Keberangkatan</span>
+                        <span>Departure Date</span>
                         <span class="font-medium text-gray-800">
                             {{ \Carbon\Carbon::parse($booking->tourSchedule->departure_date)->translatedFormat('d F Y') }}
                         </span>
                     </div>
                     <div class="flex justify-between">
-                        <span>Jumlah Peserta</span>
-                        <span class="font-medium text-gray-800">{{ $booking->total_participants }} orang</span>
+                        <span>Total Participants</span>
+                        <span class="font-medium text-gray-800">{{ $booking->total_participants }} people</span>
                     </div>
                     <div class="flex justify-between">
                         <span>Meeting Point</span>
@@ -53,7 +53,7 @@
                     </div>
                     <hr>
                     <div class="flex justify-between text-base">
-                        <span class="font-semibold text-gray-800">Total Harga</span>
+                        <span class="font-semibold text-gray-800">Total Price</span>
                         <span class="font-bold text-indigo-600">{{ idr($booking->total_price) }}</span>
                     </div>
                 </div>
@@ -61,7 +61,7 @@
 
             {{-- Data Peserta --}}
             <div class="bg-white rounded-xl shadow p-6 mb-6">
-                <h2 class="font-semibold text-gray-800 mb-4">Data Peserta</h2>
+                <h2 class="font-semibold text-gray-800 mb-4">Participant Details</h2>
                 <div class="space-y-3">
                     @foreach($booking->participants as $i => $participant)
                         <div class="border rounded-lg p-3 text-sm">
@@ -77,7 +77,7 @@
 
             @if($booking->notes)
                 <div class="bg-white rounded-xl shadow p-6 mb-6">
-                    <h2 class="font-semibold text-gray-800 mb-2">Catatan</h2>
+                    <h2 class="font-semibold text-gray-800 mb-2">Notes</h2>
                     <p class="text-sm text-gray-600">{{ $booking->notes }}</p>
                 </div>
             @endif
@@ -89,10 +89,26 @@
                 </a>
                 <a href="{{ route('tours.index') }}"
                     class="flex-1 text-center bg-gray-100 text-gray-700 py-3 rounded-xl font-semibold hover:bg-gray-200">
-                    Lihat Paket Lain
+                    Browse More Packages
                 </a>
             </div>
-
+            @if($booking->status === 'pending')
+                <form method="POST" action="{{ route('bookings.cancel', $booking->id) }}" class="mt-3">
+                    @csrf
+                    @method('PATCH')
+                    <button type="button" onclick="confirmCancel()"
+                        class="w-full bg-red-50 text-red-600 py-3 rounded-xl font-semibold hover:bg-red-100 transition border border-red-200">
+                        Cancel Booking
+                    </button>
+                </form>
+                <script>
+                    function confirmCancel() {
+                        if (confirm('Are you sure you want to cancel this booking? This action cannot be undone.')) {
+                            document.querySelector('form[action*="cancel"]').submit();
+                        }
+                    }
+                </script>
+            @endif
         </div>
     </div>
 </x-guest-nav-layout>

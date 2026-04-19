@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="en">
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>BromoTrip - {{ $title ?? 'Wisata Bromo' }}</title>
+        <title>BromoTrip - {{ $title ?? 'Bromo Tours' }}</title>
         @vite(['resources/css/app.css', 'resources/js/app.js'])
     </head>
     <body class="bg-gray-50 font-sans">
@@ -26,11 +26,14 @@
                         @auth
                             @if(auth()->user()->isAdmin())
                                 <a href="{{ route('admin.dashboard') }}" class="text-gray-600 hover:text-indigo-600 text-sm font-medium">
-                                    Dashboard Admin
+                                    Admin Dashboard
                                 </a>
                             @else
-                                <a href="{{ route('dashboard') }}" class="text-gray-600 hover:text-indigo-600 text-sm font-medium">
+                                <a href="{{ route('bookings.index') }}" class="text-gray-600 hover:text-indigo-600 text-sm font-medium">
                                     My Bookings
+                                </a>
+                                <a href="{{ route('profile.index') }}" class="text-gray-600 hover:text-indigo-600 text-sm font-medium">
+                                    Profile
                                 </a>
                             @endif
                             <form method="POST" action="{{ route('logout') }}">
