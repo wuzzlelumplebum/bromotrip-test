@@ -16,8 +16,13 @@ class AdminMiddleware
      */
     public function handle(Request $request, Closure $next)
     {
-        if (!auth()->check() || auth()->user()->role !== 1) {
-            abort(403, 'Access denied. Admins only.');
+        if (!auth()->check()) {
+            return redirect()->route('login');
+        }
+
+        if (auth()->user()->role !== 1) {
+            return redirect()->route('tours.index')
+                ->with('error', 'You do not have permission to access that page.');
         }
 
         return $next($request);

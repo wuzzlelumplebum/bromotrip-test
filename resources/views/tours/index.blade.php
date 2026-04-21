@@ -10,7 +10,7 @@
                     Discover breathtaking sunrise views, volcanic landscapes, and unforgettable adventures in East Java.
                 </p>
                 <div class="mt-6 flex justify-center gap-6 text-sm">
-                    <div class="bg-white/20 rounded-lg px-4 py-2">🏔️ 3 Tour Packages</div>
+                    <div class="bg-white/20 rounded-lg px-4 py-2">🏔️ 8 Tour Packages</div>
                     <div class="bg-white/20 rounded-lg px-4 py-2">⭐ Expert Local Guides</div>
                     <div class="bg-white/20 rounded-lg px-4 py-2">📅 Flexible Schedules</div>
                 </div>

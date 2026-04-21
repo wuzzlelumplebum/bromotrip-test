@@ -11,4 +11,10 @@ export default defineConfig({
             refresh: true,
         }),
     ],
+    server: {
+        host: 'bromotrip.test',
+        hmr: {
+            host: 'bromotrip.test',
+        },
+    },
 });
