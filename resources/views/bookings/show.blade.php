@@ -4,13 +4,6 @@
     <div class="py-8">
         <div class="max-w-3xl mx-auto px-4">
 
-            {{-- Success Alert --}}
-            @if(session('success'))
-                <div class="bg-green-50 border border-green-200 text-green-700 px-4 py-3 rounded-lg mb-6">
-                    ✅ {{ session('success') }}
-                </div>
-            @endif
-
             {{-- Booking Header --}}
             <div class="bg-white rounded-xl shadow p-6 mb-6">
                 <div class="flex items-center justify-between">

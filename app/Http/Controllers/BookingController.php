@@ -8,6 +8,8 @@ use App\Models\TourSchedule;
 use App\Models\Booking;
 use App\Models\BookingParticipant;
 use Illuminate\Support\Str;
+use App\Mail\BookingConfirmationMail;
+use Illuminate\Support\Facades\Mail;
 
 class BookingController extends Controller
 {
@@ -77,6 +79,9 @@ class BookingController extends Controller
 
         // Update quota
         $schedule->increment('booked', $request->total_participants);
+
+        // Kirim email konfirmasi
+        Mail::to($booking->user->email)->send(new BookingConfirmationMail($booking));
 
         return redirect()->route('bookings.show', $booking->id)
             ->with('success', 'Booking successful! Your booking code: ' . $booking->booking_code);

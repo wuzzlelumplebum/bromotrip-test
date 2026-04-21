@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Mail\BookingStatusUpdateMail;
+use Illuminate\Support\Facades\Mail;
 
 class BookingManagementController extends Controller
 {
@@ -35,6 +37,7 @@ class BookingManagementController extends Controller
     public function confirm(Booking $booking)
     {
         if ($booking->status !== 'pending') {
+            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'pending'));
             return redirect()->back()->with('error', 'Only pending bookings can be confirmed.');
         }
 
@@ -46,6 +49,7 @@ class BookingManagementController extends Controller
     public function complete(Booking $booking)
     {
         if ($booking->status !== 'confirmed') {
+            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'confirmed'));
             return redirect()->back()->with('error', 'Only confirmed bookings can be marked as completed.');
         }
 
@@ -57,6 +61,7 @@ class BookingManagementController extends Controller
     public function cancel(Booking $booking)
     {
         if (!in_array($booking->status, ['pending', 'confirmed'])) {
+            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, $booking->status));
             return redirect()->back()->with('error', 'This booking cannot be cancelled.');
         }
 
