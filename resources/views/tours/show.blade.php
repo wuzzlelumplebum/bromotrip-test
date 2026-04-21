@@ -77,7 +77,11 @@
                                         <div class="text-gray-500 mt-0.5">
                                             Remaining: {{ $schedule->availableQuota() }} spots
                                         </div>
-                                        @if($schedule->availableQuota() > 0)
+                                        @if(\Carbon\Carbon::parse($schedule->departure_date)->isPast())
+                                            <span class="mt-2 block text-center bg-gray-200 text-gray-400 py-1.5 rounded-md text-xs">
+                                                Expired
+                                            </span>
+                                        @elseif($schedule->availableQuota() > 0)
                                             <a href="{{ route('bookings.create', $schedule->id) }}"
                                                 class="mt-2 block text-center bg-indigo-600 text-white py-1.5 rounded-md hover:bg-indigo-700 text-xs font-medium">
                                                 Book Now

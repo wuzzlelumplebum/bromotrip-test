@@ -27,7 +27,22 @@ class BookingController extends Controller
     {
         // Check if schedule is active and has available quota
         if (!$schedule->is_active || $schedule->availableQuota() <= 0) {
-            return redirect()->back()->with('error', 'Fully booked or not available');
+            return redirect()->back()->with('error', 'Fully booked or not available.');
+        }
+
+        // Cek booking ganda
+        $existingBooking = Booking::where('user_id', auth()->id())
+            ->where('tour_schedule_id', $schedule->id)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->first();
+
+        if ($existingBooking) {
+            return redirect()->back()->with('error', 'You already have an active booking for this schedule. Booking code: ' . $existingBooking->booking_code);
+        }
+
+        // Cek apakah jadwal sudah lewat
+        if ($schedule->departure_date < now()->toDateString()) {
+            return redirect()->back()->with('error', 'This schedule has already passed.');
         }
 
         $package = $schedule->tourPackage;
@@ -44,9 +59,28 @@ class BookingController extends Controller
             'participants.*.birth_date'  => 'required|date',
             'participants.*.id_type'     => 'required|in:ktp,passport',
         ], [
-            'total_participants.max' => 'Participants exceed the available quota (' . $schedule->availableQuota() . ' quota).',
-            'total_participants.min' => 'Minimal 1 peserta.',
+            'total_participants.max'        => 'Participants exceed the available quota (' . $schedule->availableQuota() . ' spots).',
+            'total_participants.min'        => 'Minimum 1 participant required.',
+            'participants.*.name.required'  => 'Participant name is required.',
+            'participants.*.id_number.required' => 'ID number is required.',
+            'participants.*.birth_date.required' => 'Date of birth is required.',
+            'participants.*.id_type.required' => 'ID type is required.',
         ]);
+
+        // Cek apakah customer sudah punya booking aktif untuk jadwal yang sama
+        $existingBooking = Booking::where('user_id', auth()->id())
+            ->where('tour_schedule_id', $schedule->id)
+            ->whereIn('status', ['pending', 'confirmed'])
+            ->first();
+
+        if ($existingBooking) {
+            return redirect()->back()->with('error', 'You already have an active booking for this schedule. Booking code: ' . $existingBooking->booking_code);
+        }
+
+        // Cek apakah jadwal sudah lewat
+        if ($schedule->departure_date < now()->toDateString()) {
+            return redirect()->back()->with('error', 'This schedule has already passed.');
+        }
 
         // Price calculation
         $price = $schedule->tourPackage->price;

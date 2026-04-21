@@ -37,11 +37,12 @@ class BookingManagementController extends Controller
     public function confirm(Booking $booking)
     {
         if ($booking->status !== 'pending') {
-            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'pending'));
-            return redirect()->back()->with('error', 'Only pending bookings can be confirmed.');
+        return redirect()->back()->with('error', 'Only pending bookings can be confirmed.');
         }
 
         $booking->update(['status' => 'confirmed']);
+
+        Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'pending'));
 
         return redirect()->back()->with('success', 'Booking confirmed successfully.');
     }
@@ -49,11 +50,12 @@ class BookingManagementController extends Controller
     public function complete(Booking $booking)
     {
         if ($booking->status !== 'confirmed') {
-            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'confirmed'));
-            return redirect()->back()->with('error', 'Only confirmed bookings can be marked as completed.');
+        return redirect()->back()->with('error', 'Only confirmed bookings can be marked as completed.');
         }
 
         $booking->update(['status' => 'completed']);
+
+        Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, 'confirmed'));
 
         return redirect()->back()->with('success', 'Booking marked as completed.');
     }
@@ -61,12 +63,14 @@ class BookingManagementController extends Controller
     public function cancel(Booking $booking)
     {
         if (!in_array($booking->status, ['pending', 'confirmed'])) {
-            Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, $booking->status));
             return redirect()->back()->with('error', 'This booking cannot be cancelled.');
         }
 
+        $previousStatus = $booking->status;
         $booking->tourSchedule->decrement('booked', $booking->total_participants);
         $booking->update(['status' => 'cancelled']);
+
+        Mail::to($booking->user->email)->send(new BookingStatusUpdateMail($booking, $previousStatus));
 
         return redirect()->back()->with('success', 'Booking cancelled successfully.');
     }

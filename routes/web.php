@@ -58,9 +58,9 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 
 // Customer Routes
 Route::middleware(['auth', 'customer'])->group(function () {
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    // Route::get('/dashboard', function () {
+    //     return view('dashboard');
+    // })->name('dashboard');
 
     // Booking Routes
     Route::get('/bookings', [BookingController::class, 'index'])->name('bookings.index');
