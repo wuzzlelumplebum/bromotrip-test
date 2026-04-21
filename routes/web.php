@@ -23,7 +23,8 @@ use App\Http\Controllers\Admin\ReportController;
 
 Route::get('/', function () {
     $packages = \App\Models\TourPackage::where('is_active', true)->latest()->take(3)->get();
-    return view('welcome', compact('packages'));
+    $totalPackages = \App\Models\TourPackage::where('is_active', true)->count();
+    return view('welcome', compact('packages', 'totalPackages'));
 })->name('home');
 
 // Tour Routes

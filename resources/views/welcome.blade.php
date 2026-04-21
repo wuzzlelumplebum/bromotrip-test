@@ -22,6 +22,19 @@
                     </a>
                 @endguest
             </div>
+            {{-- Search Bar --}}
+            <div class="mt-8 max-w-lg mx-auto">
+                <form method="GET" action="{{ route('tours.index') }}"
+                    class="flex gap-2 bg-white rounded-xl p-2 shadow-lg">
+                    <input type="text" name="search"
+                        placeholder="Search tour packages..."
+                        class="flex-1 px-4 py-2 text-gray-800 text-sm rounded-lg border-0 focus:ring-0 outline-none">
+                    <button type="submit"
+                        class="bg-indigo-600 text-white px-6 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-700 transition">
+                        Search
+                    </button>
+                </form>
+            </div>
         </div>
 
         {{-- Decorative circles --}}
@@ -34,7 +47,7 @@
         <div class="max-w-7xl mx-auto px-4">
             <div class="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
                 <div>
-                    <div class="text-3xl font-bold text-indigo-600">3+</div>
+                    <div class="text-3xl font-bold text-indigo-600">{{ $totalPackages }}</div>
                     <div class="text-gray-500 mt-1 text-sm">Tour Packages</div>
                 </div>
                 <div>
