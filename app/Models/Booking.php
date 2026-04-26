@@ -14,6 +14,7 @@ class Booking extends Model
         'user_id',
         'tour_schedule_id',
         'total_participants',
+        'price_per_person',
         'total_price',
         'status',
         'notes',

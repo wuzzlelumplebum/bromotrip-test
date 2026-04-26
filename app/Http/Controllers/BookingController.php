@@ -95,6 +95,7 @@ class BookingController extends Controller
             'user_id'            => auth()->id(),
             'tour_schedule_id'   => $schedule->id,
             'total_participants' => $request->total_participants,
+            'price_per_person'   => $price, // snapshot harga saat booking
             'total_price'        => $totalPrice,
             'status'             => 'pending',
             'notes'              => $request->notes,

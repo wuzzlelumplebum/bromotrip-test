@@ -1,6 +1,24 @@
 <x-guest-layout>
     <!-- Session Status -->
     <x-auth-session-status class="mb-4" :status="session('status')" />
+    {{-- Demo Credentials --}}
+    <div class="bg-indigo-50 border border-indigo-200 rounded-lg p-4 mb-6">
+        <p class="text-xs font-semibold text-indigo-600 mb-2">🎯 Demo Accounts</p>
+        <div class="space-y-1 text-xs text-gray-600">
+            <div class="flex justify-between">
+                <span>👤 Admin</span>
+                <span class="font-mono">admin@bromotrip.com / password</span>
+            </div>
+            <div class="flex justify-between">
+                <span>👤 Customer</span>
+                <span class="font-mono">customer@bromotrip.com / password</span>
+            </div>
+            <div class="flex justify-between">
+                <span>⭐ Loyal Customer</span>
+                <span class="font-mono">loyal@bromotrip.com / password</span>
+            </div>
+        </div>
+    </div>
 
     <form method="POST" action="{{ route('login') }}">
         @csrf
