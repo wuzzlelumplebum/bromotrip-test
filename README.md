@@ -53,60 +53,35 @@ A web-based tour ticketing platform for booking Mount Bromo adventure packages, 
 ---
 
 ## 🗄️ Database Schema
-| users |
-|-------|
-| id |
-| name | 
-| email | 
-| password |
-| role (1=admin, 2=loyal_customer, 3=customer) |
-| timestamps |
 
-| tour_packages |
-|---------------|
-| id |
-| name |
-| slug |
-| description |
-| itinerary |
-| price |
-| duration_days |
-| meeting_point |
-| thumbnail |
-| is_active |
-| timestamps |
-
-| tour_schedules |
-|----------------|
-| id |
-| tour_package_id (FK) |
-| departure_date |
-| quota |
-| booked |
-| is_active |
-| timestamps |
-
-| bookings |
-|----------|
-| id |
-| booking_code (unique) |
-| user_id (FK) |
-| tour_schedule_id (FK) |
-| total_participants |
-| price_per_person |
-| total_price |
-| status (pending/confirmed/cancelled/completed) |
-| notes |
-| timestamps |
-
-| booking_participants |
-|----------------------|
-| id || booking_id (FK) |
-| name |
-| id_number |
-| birth_date |
-| id_type (ktp/passport) |
-| timestamps |
+```bash
+users
+├── id, name, email, password
+├── role (1=admin, 2=loyal_customer, 3=customer)
+└── timestamps
+tour_packages
+├── id, name, slug, description, itinerary
+├── price, duration_days, meeting_point
+├── thumbnail, is_active
+└── timestamps
+tour_schedules
+├── id, tour_package_id (FK)
+├── departure_date, quota, booked
+├── is_active
+└── timestamps
+bookings
+├── id, booking_code (unique)
+├── user_id (FK), tour_schedule_id (FK)
+├── total_participants, price_per_person, total_price
+├── status (pending/confirmed/cancelled/completed)
+├── notes
+└── timestamps
+booking_participants
+├── id, booking_id (FK)
+├── name, id_number, birth_date
+├── id_type (ktp/passport)
+└── timestamps
+```
 
 ---
 
