@@ -1,64 +1,177 @@
-<p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400"></a></p>
+# 🏔️ BromoTrip — Tour Ticketing System
 
-<p align="center">
-<a href="https://travis-ci.org/laravel/framework"><img src="https://travis-ci.org/laravel/framework.svg" alt="Build Status"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/dt/laravel/framework" alt="Total Downloads"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/v/laravel/framework" alt="Latest Stable Version"></a>
-<a href="https://packagist.org/packages/laravel/framework"><img src="https://img.shields.io/packagist/l/laravel/framework" alt="License"></a>
-</p>
+A web-based tour ticketing platform for booking Mount Bromo adventure packages, built with Laravel 9.
 
-## About Laravel
+## 🌐 Live Demo
+> Coming soon (deployment in progress)
 
-Laravel is a web application framework with expressive, elegant syntax. We believe development must be an enjoyable and creative experience to be truly fulfilling. Laravel takes the pain out of development by easing common tasks used in many web projects, such as:
+**Demo Accounts:**
+| Role | Email | Password |
+|------|-------|----------|
+| Admin | admin@bromotrip.com | password |
+| Loyal Customer | loyal@bromotrip.com | password |
+| Regular Customer | customer@bromotrip.com | password |
 
-- [Simple, fast routing engine](https://laravel.com/docs/routing).
-- [Powerful dependency injection container](https://laravel.com/docs/container).
-- Multiple back-ends for [session](https://laravel.com/docs/session) and [cache](https://laravel.com/docs/cache) storage.
-- Expressive, intuitive [database ORM](https://laravel.com/docs/eloquent).
-- Database agnostic [schema migrations](https://laravel.com/docs/migrations).
-- [Robust background job processing](https://laravel.com/docs/queues).
-- [Real-time event broadcasting](https://laravel.com/docs/broadcasting).
+---
 
-Laravel is accessible, powerful, and provides tools required for large, robust applications.
+## ✨ Features
 
-## Learning Laravel
+### Customer
+- Browse & filter tour packages (price, duration, search)
+- View package details with itinerary
+- Book a tour with participant details
+- Real-time quota availability
+- Booking confirmation & status tracking (Pending → Confirmed → Completed)
+- Cancel pending bookings
+- Email notifications (booking confirmation & status updates)
+- Profile management & password change
+- 10% discount for Loyal Customers
 
-Laravel has the most extensive and thorough [documentation](https://laravel.com/docs) and video tutorial library of all modern web application frameworks, making it a breeze to get started with the framework.
+### Admin
+- Dashboard with statistics (bookings, revenue, customers)
+- Full CRUD for tour packages + photo upload
+- Schedule management per package
+- Booking management (confirm, complete, cancel)
+- Edit booking participant details
+- Monthly reports with revenue breakdown
+- Auto-cancel expired pending bookings (scheduled command)
 
-If you don't feel like reading, [Laracasts](https://laracasts.com) can help. Laracasts contains over 2000 video tutorials on a range of topics including Laravel, modern PHP, unit testing, and JavaScript. Boost your skills by digging into our comprehensive video library.
+---
 
-## Laravel Sponsors
+## 🛠️ Tech Stack
 
-We would like to extend our thanks to the following sponsors for funding Laravel development. If you are interested in becoming a sponsor, please visit the Laravel [Patreon page](https://patreon.com/taylorotwell).
+| Layer | Technology |
+|-------|-----------|
+| Backend | Laravel 9, PHP 8.2 |
+| Database | MySQL |
+| Frontend | Blade, Tailwind CSS, Alpine.js |
+| Build Tool | Vite |
+| Email | Mailtrap (SMTP) |
+| Auth | Laravel Breeze |
+| Version Control | Git & GitHub |
 
-### Premium Partners
+---
 
-- **[Vehikl](https://vehikl.com/)**
-- **[Tighten Co.](https://tighten.co)**
-- **[Kirschbaum Development Group](https://kirschbaumdevelopment.com)**
-- **[64 Robots](https://64robots.com)**
-- **[Cubet Techno Labs](https://cubettech.com)**
-- **[Cyber-Duck](https://cyber-duck.co.uk)**
-- **[Many](https://www.many.co.uk)**
-- **[Webdock, Fast VPS Hosting](https://www.webdock.io/en)**
-- **[DevSquad](https://devsquad.com)**
-- **[Curotec](https://www.curotec.com/services/technologies/laravel/)**
-- **[OP.GG](https://op.gg)**
-- **[WebReinvent](https://webreinvent.com/?utm_source=laravel&utm_medium=github&utm_campaign=patreon-sponsors)**
-- **[Lendio](https://lendio.com)**
+## 🗄️ Database Schema
+users
+├── id, name, email, password
+├── role (1=admin, 2=loyal_customer, 3=customer)
+└── timestamps
+tour_packages
+├── id, name, slug, description, itinerary
+├── price, duration_days, meeting_point
+├── thumbnail, is_active
+└── timestamps
+tour_schedules
+├── id, tour_package_id (FK)
+├── departure_date, quota, booked
+├── is_active
+└── timestamps
+bookings
+├── id, booking_code (unique)
+├── user_id (FK), tour_schedule_id (FK)
+├── total_participants, price_per_person, total_price
+├── status (pending/confirmed/cancelled/completed)
+├── notes
+└── timestamps
+booking_participants
+├── id, booking_id (FK)
+├── name, id_number, birth_date
+├── id_type (ktp/passport)
+└── timestamps
 
-## Contributing
+---
 
-Thank you for considering contributing to the Laravel framework! The contribution guide can be found in the [Laravel documentation](https://laravel.com/docs/contributions).
+## ⚙️ Installation
 
-## Code of Conduct
+### Requirements
+- PHP >= 8.2
+- Composer
+- Node.js >= 18
+- MySQL
 
-In order to ensure that the Laravel community is welcoming to all, please review and abide by the [Code of Conduct](https://laravel.com/docs/contributions#code-of-conduct).
+### Steps
 
-## Security Vulnerabilities
+```bash
+# 1. Clone the repository
+git clone https://github.com/wuzzlelumplebum/bromotrip-test.git
+cd bromotrip-test
 
-If you discover a security vulnerability within Laravel, please send an e-mail to Taylor Otwell via [taylor@laravel.com](mailto:taylor@laravel.com). All security vulnerabilities will be promptly addressed.
+# 2. Install PHP dependencies
+composer install
 
-## License
+# 3. Install Node dependencies
+npm install
 
-The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+# 4. Copy environment file
+cp .env.example .env
+
+# 5. Generate application key
+php artisan key:generate
+
+# 6. Configure database in .env
+DB_DATABASE=bromotrip
+DB_USERNAME=root
+DB_PASSWORD=
+
+# 7. Configure mail in .env (Mailtrap)
+MAIL_MAILER=smtp
+MAIL_HOST=sandbox.smtp.mailtrap.io
+MAIL_PORT=2525
+MAIL_USERNAME=your_username
+MAIL_PASSWORD=your_password
+
+# 8. Run migrations & seeders
+php artisan migrate --seed
+
+# 9. Create storage link
+php artisan storage:link
+
+# 10. Build assets
+npm run build
+
+# 11. Start server
+php artisan serve
+```
+
+---
+
+## 📁 Project Structure
+
+app/
+├── Console/Commands/     # Scheduled commands (CancelExpiredBookings)
+├── Http/Controllers/
+│   ├── Admin/           # Admin controllers
+│   └── Auth/            # Authentication controllers
+├── Mail/                # Email classes
+└── Models/              # Eloquent models
+resources/views/
+├── admin/               # Admin panel views
+├── bookings/            # Customer booking views
+├── components/          # Reusable blade components
+├── emails/              # Email templates
+└── tours/               # Tour listing views
+
+---
+
+## 🔑 Key Implementation Details
+
+- **Role-based access control** — Middleware for admin and customer routes
+- **Real-time quota management** — Booking decrements available spots instantly
+- **Price snapshot** — Price per person saved at booking time, immune to future price changes
+- **Duplicate booking prevention** — One active booking per schedule per customer
+- **Auto-cancel expired bookings** — Laravel scheduler runs daily at midnight
+- **Email notifications** — Triggered on booking creation and status changes
+
+---
+
+## 👤 Author
+
+**Yanuar Cahya Pratama**
+- GitHub: [@wuzzlelumplebum](https://github.com/wuzzlelumplebum)
+
+---
+
+## 📄 License
+
+This project is open-sourced for portfolio purposes
