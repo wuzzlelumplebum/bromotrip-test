@@ -53,6 +53,8 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::post('/bookings/{booking}/complete', [BookingManagementController::class, 'complete'])->name('bookings.complete');
     Route::post('/bookings/{booking}/cancel', [BookingManagementController::class, 'cancel'])->name('bookings.cancel');
     Route::get('/bookings/{booking}', [BookingManagementController::class, 'show'])->name('bookings.show');
+    Route::get('/bookings/{booking}/edit', [BookingManagementController::class, 'edit'])->name('bookings.edit');
+    Route::put('/bookings/{booking}', [BookingManagementController::class, 'update'])->name('bookings.update');
     Route::get('/reports', [ReportController::class, 'index'])->name('reports.index');
 });
 

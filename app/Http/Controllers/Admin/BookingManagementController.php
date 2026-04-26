@@ -74,4 +74,35 @@ class BookingManagementController extends Controller
 
         return redirect()->back()->with('success', 'Booking cancelled successfully.');
     }
+
+    public function edit(Booking $booking)
+    {
+        $booking->load(['user', 'tourSchedule.tourPackage', 'participants']);
+        return view('admin.bookings.edit', compact('booking'));
+    }
+
+    public function update(Request $request, Booking $booking)
+    {
+        $request->validate([
+            'notes'                      => 'nullable|string',
+            'participants.*.name'        => 'required|string|max:255',
+            'participants.*.id_number'   => 'required|string|max:50',
+            'participants.*.birth_date'  => 'required|date',
+            'participants.*.id_type'     => 'required|in:ktp,passport',
+        ]);
+
+        $booking->update(['notes' => $request->notes]);
+
+        foreach ($request->participants as $id => $data) {
+            $booking->participants()->where('id', $id)->update([
+                'name'       => $data['name'],
+                'id_number'  => $data['id_number'],
+                'birth_date' => $data['birth_date'],
+                'id_type'    => $data['id_type'],
+            ]);
+        }
+
+        return redirect()->route('admin.bookings.show', $booking->id)
+            ->with('success', 'Booking updated successfully.');
+    }
 }

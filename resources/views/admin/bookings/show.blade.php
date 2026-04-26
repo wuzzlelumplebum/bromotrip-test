@@ -109,6 +109,10 @@
             {{-- Action Buttons --}}
             <div class="bg-white rounded-xl shadow p-6 space-y-3">
                 <h2 class="font-semibold text-gray-800 mb-2">Actions</h2>
+                <a href="{{ route('admin.bookings.edit', $booking->id) }}"
+                    class="w-full block text-center bg-indigo-50 text-indigo-600 py-2 rounded-lg text-sm font-semibold hover:bg-indigo-100 border border-indigo-200 mb-3">
+                    ✏️ Edit Booking
+                </a>
                 @if($booking->status === 'pending')
                     <form method="POST" action="{{ route('admin.bookings.confirm', $booking->id) }}">
                         @csrf
